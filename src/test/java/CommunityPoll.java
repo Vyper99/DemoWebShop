@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static com.sun.org.apache.xpath.internal.compiler.Token.contains;
 import static org.junit.Assert.assertEquals;
 
 public class CommunityPoll {
@@ -32,7 +33,7 @@ public class CommunityPoll {
     }
 
     @Test
-    public void TestPass(){
+    public void TestPass() throws InterruptedException {
         driver.get("http://demowebshop.tricentis.com/");
         RegisterMethod register=new RegisterMethod();
         register.setDriver(driver);
@@ -40,6 +41,8 @@ public class CommunityPoll {
         driver.findElement(By.id("pollanswers-1")).click();
         //driver.findElement(By.cssSelector("#button button-1")).click();
         driver.findElement(By.id("vote-poll-1")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.className("poll-total-votes")).isDisplayed();
 
     }
 
