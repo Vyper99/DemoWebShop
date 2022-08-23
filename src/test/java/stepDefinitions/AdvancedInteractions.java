@@ -58,9 +58,7 @@ public class AdvancedInteractions {
         Actions action = new Actions(driver);
         action.moveToElement(cart).perform();
         Thread.sleep(10000);
-        String expected = "Health Book";
-        String actual = driver.findElement(By.cssSelector("#flyout-cart > div > div.items > div > div.product > div.name > a")).getText();
-        assertEquals(expected, actual);
+
 
 
 
@@ -68,7 +66,9 @@ public class AdvancedInteractions {
     }
     @Then("customer should see Health Book in shopping cart")
     public void customer_should_see_health_book_in_shopping_cart() {
-        // Write code here that turns the phrase above into concrete actions
+        String expected = "Health Book";
+        String actual = driver.findElement(By.cssSelector("#flyout-cart > div > div.items > div > div.product > div.name > a")).getText();
+        assertEquals(expected, actual);
 
     }
 
