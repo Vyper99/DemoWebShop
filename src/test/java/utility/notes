@@ -1,0 +1,9 @@
+Wait<WebDriver> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(6))
+                .pollingEvery(Duration.ofSeconds(2))
+                .ignoring(ElementNotInteractableException.class);
+        wait.until(new Function<WebDriver, Boolean>() {
+            public Boolean apply(WebDriver d){
+                return d.findElement(By.cssSelector("#opc-payment_method .button-1")).isDisplayed();
+            }
+        });
