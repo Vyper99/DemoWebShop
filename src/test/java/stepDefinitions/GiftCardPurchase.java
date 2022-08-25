@@ -28,6 +28,7 @@ public class GiftCardPurchase {
         Thread.sleep(2000);
         driver.findElement(By.cssSelector("#giftcard_4_RecipientName")).sendKeys("Joe");
         driver.findElement(By.cssSelector("#giftcard_4_SenderName")).sendKeys("Smith");
+        driver.findElement(By.cssSelector("#add-to-cart-button-4")).click();
         Thread.sleep(2000);
 
         // Verify Item Is In Cart
