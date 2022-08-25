@@ -11,24 +11,23 @@ import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.Assert.assertEquals;
 import static utility.Hooks.driver;
+public class GiftCardPurchase {
 
-public class DesktopPurchase {
-
-    @When("User Adds Desktop Computer to Cart")
-    public void user_adds_desktop_computer_to_cart() throws InterruptedException {
+    @When("User Purchases Gift Card")
+    public void user_purchases_gift_card() throws InterruptedException {
         // Go to Demowebshop home page
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get("http://demowebshop.tricentis.com/");
 
-        // Find Expensive Computer & Add To Cart
-        driver.findElement(By.cssSelector(".top-menu [href=\"/computers\"]")).click();
-        driver.findElement(By.cssSelector(":nth-child(1) > div > h2")).click();
-//        driver.findElement(By.cssSelector(" div:nth-child(3) > div > div.details > h2 > a")).click();   // alternative selector for expensive computer; unused
+        // Find Gift Card & Add To Cart
+        driver.findElement(By.cssSelector(".top-menu > li:nth-child(7) > a")).click();
         Thread.sleep(2000);
-        driver.findElement(By.cssSelector(":nth-child(3) > div > div.details div.buttons > input")).click();
+        driver.findElement(By.cssSelector(":nth-child(4) > div > div.details input")).click();
+//        driver.findElement(By.cssSelector(".top-menu > li:nth-child(2) > ul > li:nth-child(2) > a")).click();   // alternative selector for Notebooks; unused
         Thread.sleep(2000);
-        driver.findElement(By.cssSelector("div #add-to-cart-button-74")).click();
+        driver.findElement(By.cssSelector("#giftcard_4_RecipientName")).sendKeys("Joe");
+        driver.findElement(By.cssSelector("#giftcard_4_SenderName")).sendKeys("Smith");
         Thread.sleep(2000);
 
         // Verify Item Is In Cart
@@ -36,25 +35,16 @@ public class DesktopPurchase {
         Actions action = new Actions(driver);
         action.moveToElement(cart).perform();
         Thread.sleep(2000);
-        String expected = "Build your own expensive computer";
+        String expected = "$100 Physical Gift Card";
         String actual = driver.findElement(By.cssSelector("#flyout-cart div.name > a")).getText();
 //        System.out.println("actual: " + actual);
         assertEquals(expected, actual);
 
         //Go To Cart
         driver.findElement(By.cssSelector("#flyout-cart input")).click();
-
-
-
-
     }
-    @Then("Checks-out Successfully")
-    public void checks_out_successfully() throws InterruptedException {
 
-        // Use Checkout method to complete Checkout
-        Checkout checkout = new Checkout();
-        checkout.setDriver(driver);
-        checkout.Checkout();
-    }
 
 }
+
+
