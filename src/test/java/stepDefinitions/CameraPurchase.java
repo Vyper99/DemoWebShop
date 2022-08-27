@@ -27,7 +27,8 @@ public class CameraPurchase {
         driver.findElement(By.cssSelector(":nth-child(1) > div > h2 > a")).click();
 //        driver.findElement(By.cssSelector(" div:nth-child(3) > div > div.details > h2 > a")).click();   // alternative selector for Camera; unused
         Thread.sleep(2000);
-        driver.findElement(By.cssSelector(":nth-child(3) > div > div.details > h2 > a")).click();
+        driver.findElement(By.cssSelector("a[href=\"/digital-slr-camera\"]")).click();
+//        driver.findElement(By.cssSelector(":nth-child(3) > div > div.details > h2 > a")).click();       // alternative selector for digital slr camera
         Thread.sleep(2000);
         driver.findElement(By.cssSelector("#add-to-cart-button-19")).click();
         Thread.sleep(2000);
