@@ -7,15 +7,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertEquals;
+import static utility.Hooks.driver;
 
 public class Login {
-    WebDriver driver;
     String username;
     String password;
     @Given("User has valid credentials")
     public void user_has_valid_credentials() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
         username = "smith1212@gmail.com";
         password = "password";
     }

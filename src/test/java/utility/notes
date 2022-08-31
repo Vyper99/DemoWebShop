@@ -66,3 +66,70 @@ Wait<WebDriver> wait = new FluentWait<>(driver)
             }
 
 
+
+
+Runner2
+
+package utility;
+
+import io.cucumber.junit.CucumberOptions;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+
+import java.time.Duration;
+
+
+@CucumberOptions(
+        features = {"src/test/java/features"},
+        glue = {"stepDefinitions","utility"},
+        tags = "@myTestTag",
+        dryRun = false,
+        plugin = {"pretty", "html:target/cucumber-reports.html"}
+)
+public class Runner2 extends AbstractTestNGCucumberTests {
+    private static Threadlocal<WebDriver> LocalDriver = new Threadlocal<>();
+
+    @BeforeMethod
+    @Parameters({"browser"})
+    public void setUp(String browser) {
+        loadBrowser(browser);
+    }
+
+    private static void loadBrowser(String browser) {
+        switch (browser.toLowerCase()) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                localDriver.set(new FirefoxDriver());
+                break;
+            case "chrome":
+                WebDriverManager.edgedriver().setup();
+                localDriver.set(new EdgeDriver());
+                break;
+        }
+        localDriver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+    }
+
+    public static WebDriver getLocalDriver() { return localDriver.get(); }
+    public static void setLocalDriver(WebDriver driver) {localDriver.set(driver);}
+
+    @AfterMethod
+    public void tearDown(){
+        localDriver.get().quit();
+        localDriver.remove();
+
+
+    }
+}
+
+
+
+EBANQ CREDENTIALS
+User Credentials: Demo-User
+Password: Demo-Access1
+

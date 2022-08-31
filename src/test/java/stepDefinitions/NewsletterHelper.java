@@ -19,6 +19,14 @@ public String Homepage() {
     return "https://demowebshop.tricentis.com/";
 }
 
+// LogInPage login = PageFactory.initElements(driver, LogInPage.class);
+
+// @Findby (css = "#Email")
+// public WebElement emailInput;
+
+// driver.findElement(By.cssSelector("#Email")).sendKeys(username);
+// login.emailInput.sendKeys(login.invalidEmail);
+
 public By signupField = By.cssSelector("#newsletter-email");
 
 public String validEmail = "Smith1212@gmail.com";

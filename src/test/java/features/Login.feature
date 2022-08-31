@@ -1,6 +1,8 @@
 Feature: Log-in
 
-  @smoke #tag
+
+
+  @smoke @myTestTag
   Scenario: Successful User Log-in
 
     #Given is what we need to run this test
