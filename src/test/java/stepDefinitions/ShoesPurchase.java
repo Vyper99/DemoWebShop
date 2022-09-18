@@ -15,35 +15,30 @@ import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 import static utility.Hooks.driver;
-public class GiftCardPurchase {
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    @When("User Purchases Gift Card")
-    public void user_purchases_gift_card() throws InterruptedException {
+public class ShoesPurchase {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    @When("User Adds Blue and green Sneaker Shoes to Cart")
+    public void user_adds_blue_and_green_sneaker_shoes_to_cart() throws InterruptedException {
         // Go to Demowebshop home page
         driver.get("http://demowebshop.tricentis.com/");
 
-        // Find Gift Card & Add To Cart
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".top-menu > li:nth-child(7) > a"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(":nth-child(4) > div > div.details input"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#giftcard_4_RecipientName"))).sendKeys("Joe");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#giftcard_4_SenderName"))).sendKeys("Smith");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add-to-cart-button-4"))).click();
+        // Find Blue and green Sneaker & Add To Cart
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".top-menu li:nth-child(4) > a"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(":nth-child(2) > div > div.details input"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add-to-cart-button-28"))).click();
 
         // Verify Item Is In Cart
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bar-notification > p"))); // wait until "product added to cart" message
         WebElement cart=driver.findElement(By.cssSelector("#topcartlink > a > span.cart-label"));
         Actions action = new Actions(driver);
         action.moveToElement(cart).perform();
-        String expected = "$100 Physical Gift Card";
+        String expected = "Blue and green Sneaker";
         String actual = driver.findElement(By.cssSelector("#flyout-cart div.name > a")).getText();
         assertEquals(expected, actual);
 
         //Go To Cart
         driver.findElement(By.cssSelector("#flyout-cart input")).click();
+
     }
-
-
 }
-
-

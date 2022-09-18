@@ -8,33 +8,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 import static utility.Hooks.driver;
 
 public class JewelryPurchase {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     @When("User Purchases Jewelry")
     public void user_purchases_jewelry() throws InterruptedException {
         // Go to Demowebshop home page
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
         driver.get("http://demowebshop.tricentis.com/");
 
         // Find Jewelry & Add To Cart
-        driver.findElement(By.cssSelector(".top-menu > li:nth-child(6) > a")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.cssSelector(":nth-child(2) > div > div.details input")).click();
-        Thread.sleep(2000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".top-menu > li:nth-child(6) > a"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(":nth-child(2) > div > div.details input"))).click();
 
         // Verify Item Is In Cart
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bar-notification > p"))); // wait until "product added to cart" message
         WebElement cart=driver.findElement(By.cssSelector("#topcartlink > a > span.cart-label"));
         Actions action = new Actions(driver);
         action.moveToElement(cart).perform();
-        Thread.sleep(2000);
         String expected = "Black & White Diamond Heart";
         String actual = driver.findElement(By.cssSelector("#flyout-cart div.name > a")).getText();
-        //        System.out.println("actual: " + actual);
         assertEquals(expected, actual);
 
         //Go To Cart
