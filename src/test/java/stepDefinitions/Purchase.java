@@ -56,9 +56,9 @@ public class Purchase {
             purchase.gotoCart();
 
         // Use Checkout method to complete Checkout
-           Checkout checkout = new Checkout();
-            checkout.Checkout(driver);
-
+//            Checkout checkout = new Checkout();
+//            checkout.Checkout(driver);
+              purchase.Checkout();
     }
 
     // CAMERA

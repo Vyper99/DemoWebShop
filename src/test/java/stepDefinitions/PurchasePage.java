@@ -17,34 +17,36 @@ import java.time.Duration;
 import static org.junit.Assert.assertEquals;
 import static utility.Hooks.driver;
 
-// This is a companion page for all the Purchase Tests
+                                // This is a companion page for all the Purchase Tests
 
 public class PurchasePage {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
 // Initialize variables
     public String Expected;
+    private String username = "smith1212@gmail.com";
+    private String password = "password";
 
 
 
-// UTILITY
+                                                // UTILITY
 
-    // Go to DemoWebShop Homepage
+                                                // Go to DemoWebShop Homepage
         public void homePage() {
             driver.get("http://demowebshop.tricentis.com/");
         }
 
-    // Go to Cart
+                                                // Go to Cart
         public void gotoCart(){
             driver.findElement(By.cssSelector("#flyout-cart input")).click();
         }
 
-    // Set expected string when checking contents of cart
+                                                // Set expected string when checking contents of cart
         public void setExpected(String expected) {
             this.Expected=expected;
         }
 
-    // Verify item is in cart
+                                                // Verify item is in cart
         public void verifyCart(){
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#bar-notification > p"))); // wait until "product added to cart" message
             WebElement cart=driver.findElement(By.cssSelector("#topcartlink > a > span.cart-label"));
@@ -54,9 +56,51 @@ public class PurchasePage {
             assertEquals(Expected, actual);
         }
 
+                                                // Checkout
+    public void Checkout() {
+
+        // Fill in checkout form
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("termsofservice"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("checkout"))).click();
+
+        // Login
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Email"))).sendKeys(username);
+        driver.findElement(By.id("Password")).sendKeys(password);
+        driver.findElement(By.className("login-button")).click();
+
+        // Verify Checkout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("termsofservice"))).click();
+        driver.findElement(By.id("checkout")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-billing .button-1"))).click();
+
+        // Check if shipping info is required or not and fill it in
+        if(driver.getPageSource().contains("Shipping address") && (driver.getPageSource().contains("Shipping method"))) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping .button-1"))).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping_method .button-1"))).click();
+
+        }
+
+        // Continue through rest of checkout
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-payment_method .button-1"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-payment_info .button-1"))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-confirm_order .button-1"))).click();
+
+        // Verify checkout was successful
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("strong")));
+        String expected = "Your order has been successfully processed!";
+        String actual = driver.findElement(By.className("title")).getText().trim();
+        assertEquals(expected, actual);
+        driver.findElement(By.className("order-completed-continue-button")).click();
+        actual  = driver.getTitle();
+        expected = "Demo Web Shop";
+        assertEquals(expected, actual);
 
 
-// ACCESSORY
+    }
+
+
+                                                // ACCESSORY
         public void Accessory() {
             this.Expected = "TCP Self-Paced Training";
         }
@@ -75,8 +119,7 @@ public class PurchasePage {
         }
 
 
-
-// CAMERA
+                                                // CAMERA
         public void DSLR() {
             this.Expected = "Digital SLR - Special edition";
         }
@@ -96,7 +139,8 @@ public class PurchasePage {
         public void addtocartDSLR_SE() {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add-to-cart-button-19"))).click();
         }
-// DESKTOP
+
+                                                // DESKTOP
 
         public void Desktop() {
             this.Expected = "Build your own expensive computer";
@@ -114,7 +158,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div #add-to-cart-button-74"))).click();
         }
 
-// DIGITAL DOWNLOADS
+                                                // DIGITAL DOWNLOADS
 
         public void DigitalDownloads() {
             this.Expected = "Music 2";
@@ -128,7 +172,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div:nth-child(3) > div > div.details input"))).click();
         }
 
-// GIFT CARD
+                                                // GIFT CARD
 
         public void GiftCard() {
             this.Expected = "$100 Physical Gift Card";
@@ -151,7 +195,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add-to-cart-button-4"))).click();
         }
 
-// JEWELRY
+                                                // JEWELRY
 
         public void Jewelry() {
             this.Expected = "Black & White Diamond Heart";
@@ -165,7 +209,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(":nth-child(2) > div > div.details input"))).click();
         }
 
-// NOTEBOOK
+                                                // NOTEBOOK
 
         public void Notebook() {
             this.Expected = "14.1-inch Laptop";
@@ -179,7 +223,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.add-info input"))).click();
         }
 
-// PHONE COVER
+                                                // PHONE COVER
 
         public void PhoneCover() {
             this.Expected = "Phone Cover";
@@ -197,7 +241,7 @@ public class PurchasePage {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add-to-cart-button-80"))).click();
         }
 
-// SHOES
+                                                // SHOES
 
         public void Shoes() {
             this.Expected = "Blue and green Sneaker";

@@ -31,7 +31,7 @@ public class Checkout {
         this.driver=Driver;
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        //Fill in checkout form
+        // Fill in checkout form
 //        driver.findElement(By.id("CountryId")).click();
 //        WebElement country = driver.findElement(By.id("CountryId"));
 //        Select selectCountry = new Select(country);
@@ -45,35 +45,46 @@ public class Checkout {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("termsofservice"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("checkout"))).click();
 
-        //Login
+        // Login
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("Email"))).sendKeys("smith1212@gmail.com");
         driver.findElement(By.id("Password")).sendKeys("password");
         driver.findElement(By.className("login-button")).click();
 
 
-        //Verify Checkout
+        // Verify Checkout
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("termsofservice"))).click();
         driver.findElement(By.id("checkout")).click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-billing .button-1"))).click();
 
-        //Check if shipping info is required or not and fill it in
+        // Check if shipping info is required or not and fill it in
 //        boolean ShippingAddress = driver.findElement(By.cssSelector("#opc-shipping")).isDisplayed();
 //        boolean ShippingMethod = driver.findElement(By.cssSelector("#opc-shipping_method")).isDisplayed();
-        boolean ShippingAddress;
-        try {
-            driver.findElement(By.cssSelector("#opc-shipping")).isDisplayed();
-            ShippingAddress = true;
-        }catch (NoSuchElementException ignored){
-            ShippingAddress = false;
-        }
-        if (ShippingAddress) {
+
+//        boolean ShippingAddress;
+//        try {
+//            driver.findElement(By.cssSelector("#opc-shipping")).isDisplayed();
+//            ShippingAddress = true;
+//        }catch (NoSuchElementException ignored){
+//            ShippingAddress = false;
+//        }
+//        if (ShippingAddress) {
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping .button-1"))).click();
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping_method .button-1"))).click();
+//        }
+
+        if(driver.getPageSource().contains("Shipping address") && (driver.getPageSource().contains("Shipping method"))) {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping .button-1"))).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-shipping_method .button-1"))).click();
+
         }
+
+        // Continue through rest of checkout
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-payment_method .button-1"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-payment_info .button-1"))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#opc-confirm_order .button-1"))).click();
+
+        // Verify checkout was successful
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("strong")));
           String expected = "Your order has been successfully processed!";
           String actual = driver.findElement(By.className("title")).getText().trim();
