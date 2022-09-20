@@ -12,18 +12,11 @@ import java.time.Duration;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class EbayCategories {
     public static void main(String[] args) throws InterruptedException {
-        List Expected = new ArrayList();
-             Expected.add(Arrays.asList("All Categories", "Antiques", "Art", "Baby", "Books", "Business & Industrial", "Cameras & Photo", "Cell Phones & Accessories", "Clothing", "Shoes & Accessories", "Coins & Paper Money", "Collectibles", "Computers/Tablets & Networking", "Crafts", "Dolls & Bears", "DVDs & Movies", "eBay Motors", "Entertainment Memorabilia", "Gift Cards & Coupons", "Health & Beauty", "Home & Garden", "Jewelry & Watches", "Music", "Musical Instruments & Gear", "Pet Supplies", "Pottery & Glass", "Real Estate", "Specialty Services", "Sporting Goods", "Sports Mem", "Cards & Fan Shop", "Stamps", "Tickets & Experiences", "Toys & Hobbies", "Travel", "Video Games & Consoles", "Everything Else"));
-
-        System.out.println(Expected.toString());
-
+        List <String> Expected = new ArrayList(Arrays.asList("All Categories", "Antiques", "Art", "Baby", "Books", "Business & Industrial", "Cameras & Photo", "Cell Phones & Accessories", "Clothing, Shoes & Accessories", "Coins & Paper Money", "Collectibles", "Computers/Tablets & Networking", "Crafts", "Dolls & Bears", "DVDs & Movies", "eBay Motors", "Entertainment Memorabilia", "Gift Cards & Coupons", "Health & Beauty", "Home & Garden", "Jewelry & Watches", "Music", "Musical Instruments & Gear", "Pet Supplies", "Pottery & Glass", "Real Estate", "Specialty Services", "Sporting Goods", "Sports Mem, Cards & Fan Shop", "Stamps", "Tickets & Experiences", "Toys & Hobbies", "Travel", "Video Games & Consoles", "Everything Else"));
 
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
@@ -34,27 +27,27 @@ public class EbayCategories {
 
         List<WebElement> categories = dropdown.getOptions();
 
-        List textCategories = new ArrayList();
+        List <String> Actual = new ArrayList<>();
             for (WebElement options : categories) {
-                textCategories.add(options.getText());
+                Actual.add(options.getText().trim());
             }
 
+        //Collections.sort(Actual);
+        //Collections.sort(Expected);
 
+        List missingExpected = new ArrayList (Actual);
+            for (String options : Expected) {
+                missingExpected.remove(options);
+            }
 
-    //    Collections.sort(Expected);
-    //    Collections.sort(textCategories);
+        System.out.println(missingExpected);
 
-        System.out.println(Expected.toString());
-        System.out.println(textCategories.toString());
+        List missingActual = new ArrayList(Expected);
+            for (String options : Actual) {
+                missingActual.remove(options);
+            }
 
-
-        //Assert.assertEquals(Expected, textCategories);
-
-        List<String> difference = (List<String>) textCategories.stream()
-                .filter(element -> !Expected.contains(element))
-                .collect(Collectors.toList());
-
-        System.out.println(difference.toString());
+        System.out.println(missingActual);
 
         driver.close();
 
