@@ -40,7 +40,6 @@ public class Purchase {
 
     }
 
-
     // Verify Item Is In Cart
     @Then("Verify Item Is In Cart")
     public void verify_item_is_in_cart() {
